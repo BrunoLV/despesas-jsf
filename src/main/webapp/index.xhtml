@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="UTF-8"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+	<title><h:outputText value="#{resources['page.title']}" /></title>
+	<h:outputStylesheet name="css/reset.css" />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&lt;display=swap"
+		rel="stylesheet"></link>
+	<h:outputStylesheet name="css/style.css" />
+</h:head>
+
+<h:body>
+
+
+	<section id="lista" class="secao-comum">
+		<p:dataTable var="lancamento"
+			value="#{lancamentoController.lancamentos}" paginator="true"
+			rows="20" paginatorAlwaysVisible="false"
+			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="#{resources['table.header.descricao']}" />
+				</f:facet>
+				<h:outputText value="#{lancamento.descricao}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="#{resources['table.header.data']}" />
+				</f:facet>
+				<h:outputText value="#{lancamento.data}">
+					<f:converter converterId="localDateConverter" />
+				</h:outputText>
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="#{resources['table.header.tipo']}" />
+				</f:facet>
+				<h:outputText value="#{lancamento.tipo.descricao}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="#{resources['table.header.valor']}" />
+				</f:facet>
+				<h:outputText value="#{lancamento.valor}">
+					<f:convertNumber maxIntegerDigits="15" maxFractionDigits="2"
+						minFractionDigits="2" />
+				</h:outputText>
+			</p:column>
+		</p:dataTable>
+	</section>
+
+</h:body>
+</html>

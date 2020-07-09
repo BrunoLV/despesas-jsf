@@ -1,0 +1,10 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+}
+
+.secao-comum {
+	width: 940px;
+    margin: 0 auto;
+    padding: 5px;
+}
