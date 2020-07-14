@@ -3,6 +3,8 @@ package br.com.valhala.despesas.model.entidades;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,28 +35,53 @@ public class Lancamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @NotNull(message = "{lancamento.data.obrigatorio}")
-    private LocalDate data;
+	@NotNull(message = "{lancamento.data.obrigatorio}")
+	private LocalDate data;
 
-    @NotBlank(message = "{lancamento.descricao.obrigatorio}")
-    private String descricao;
+	@NotBlank(message = "{lancamento.descricao.obrigatorio}")
+	private String descricao;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull(message = "{lancamento.tipo.obrigatorio}")
-    private TipoLancamento tipo;
+	@Enumerated(EnumType.STRING)
+	@NotNull(message = "{lancamento.tipo.obrigatorio}")
+	private TipoLancamento tipo;
 
-    @NotNull(message = "{lancamento.valor.obrigatorio}")
-    @Positive(message = "{lancamento.valor.maiorZero}")
-    @Column(precision = 17, scale = 2)
-    private BigDecimal valor;
+	@NotNull(message = "{lancamento.valor.obrigatorio}")
+	@Positive(message = "{lancamento.valor.maiorZero}")
+	@Column(precision = 17, scale = 2)
+	private BigDecimal valor;
 
-    private String observacao;
+	private String observacao;
 
-    public boolean isDebito() {
-        return this.tipo == TipoLancamento.DEBITO;
-    }
+	public boolean isDebito() {
+		return this.tipo == TipoLancamento.DEBITO;
+	}
+
+	public Lancamento sobrepoe(Lancamento dadosEdicao) {
+		return new Lancamento(this.getId(), dadosEdicao.getData(), dadosEdicao.getDescricao(), dadosEdicao.getTipo(),
+				dadosEdicao.getValor(), dadosEdicao.getObservacao());
+	}
+
+	public static Lancamento copia(Lancamento lancamento) {
+		return new Lancamento(lancamento.getId(), lancamento.getData(), lancamento.getDescricao(), lancamento.getTipo(),
+				lancamento.getValor(), lancamento.getObservacao());
+	}
+	
+	public Date getDataAsDate() {
+		if (this.data == null) {
+			return null;
+		}
+		return Date.from(this.data.atStartOfDay(ZoneId.systemDefault()).toInstant());
+	}
+	
+	public void setDataAsDate(Date dataAsDate) {
+		if (dataAsDate == null) {
+			this.data = null;
+		} else {
+			this.data = dataAsDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		}
+	}
 
 }

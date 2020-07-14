@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<meta charset="UTF-8"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+	<title><h:outputText value="#{resources['page.title']}" /></title>
+	<h:outputStylesheet name="reset.css" library="css" />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&amp;display=swap"
+		rel="stylesheet" />
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<h:outputStylesheet name="primeflex.min.css" library="css" />
+	<h:outputStylesheet name="style.css" library="css" />
+	<h:outputStylesheet name="default.css" library="css" />
+
+</h:head>
+
+<h:body>
+
+	<header>
+		<div class="header-pagina">
+			<p:graphicImage name="lancamento.png" library="imagens"
+				alt="icone lancamento" />
+			<h1 class="titulo-pagina">
+				<h:outputText value="#{resources['page.header']}" />
+			</h1>
+		</div>
+	</header>
+
+	<main>
+
+		<ui:insert name="content">
+		</ui:insert>
+
+	</main>
+
+</h:body>
+
+</html>

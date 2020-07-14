@@ -3,11 +3,8 @@
     		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     		 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
     		 version="2.2">
-			 
+    		 
 	<persistence-unit name="despesas-pu" transaction-type="JTA"> 
-		<jta-data-source>java:jboss/datasources/despesasDS</jta-data-source>
-		<class>com.valaha.despesas.model.enumerados.Lancamento</class>
-		
 		<properties>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>

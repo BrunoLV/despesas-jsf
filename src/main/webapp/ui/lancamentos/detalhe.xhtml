@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+<ui:composition template="/ui/layout/layout.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<f:viewParam name="id" value="#{lancamentoController.id}"
+				required="false" />
+			<f:viewAction action="#{lancamentoController.carregaLancamento()}" />
+		</f:metadata>
+
+		<div class="secao-menu">
+			<h:form id="formMenu" prependId="false">
+				<p:menubar>
+					<p:menuitem value="#{resources['button.voltar.listagem']}"
+						action="listagem?faces-redirect=true" />
+				</p:menubar>
+			</h:form>
+		</div>
+
+		<section class="secao-comum">
+
+			<p:growl globalOnly="false" id="messages" />
+			<p:fieldset legend="#{resources['fieldset.detalhe.lengend']}">
+				<div class="ui-fluid p-formgrid p-grid">
+					<div class="p-field p-col-3">
+						<p:outputLabel for="dataInputText"
+							value="#{resources['label.cadastro.data']}" />
+						<p:inputText id="dataInputText"
+							value="#{lancamentoController.lancamento.data}" readonly="true">
+							<f:converter converterId="localDateConverter" />
+						</p:inputText>
+					</div>
+				</div>
+				<div class="ui-fluid p-formgrid p-grid">
+					<div class="p-field p-col-6">
+						<p:outputLabel for="descricaoInputText"
+							value="#{resources['label.cadastro.descricao']}" />
+						<p:inputText id="descricaoInputText"
+							value="#{lancamentoController.lancamento.descricao}"
+							readonly="true" />
+					</div>
+				</div>
+				<div class="ui-fluid p-formgrid p-grid">
+					<div class="p-field p-col-3">
+						<p:outputLabel for="tipoInputText"
+							value="#{resources['label.cadastro.tipo']}" />
+						<p:inputText id="tipoInputText"
+							value="#{lancamentoController.lancamento.tipo.descricao}" readonly="true" />
+					</div>
+				</div>
+				<div class="ui-fluid p-formgrid p-grid">
+					<div class="p-field p-col-3">
+						<p:outputLabel for="valorInputText"
+							value="#{resources['label.detalhe.valor']}" />
+						<p:inputNumber id="valorInputText"
+							value="#{lancamentoController.lancamento.valor}"
+							decimalPlaces="2" readonly="true" />
+					</div>
+				</div>
+				<div class="ui-fluid p-formgrid p-grid">
+					<div class="p-field p-col-6">
+						<p:outputLabel for="observacoesTextArea"
+							value="#{resources['label.cadastro.observacoes']}" />
+						<p:inputTextarea id="observacoesTextArea"
+							value="#{lancamentoController.lancamento.observacao}"
+							readonly="true" />
+					</div>
+				</div>
+			</p:fieldset>
+
+		</section>
+
+	</ui:define>
+
+</ui:composition>
+</html>

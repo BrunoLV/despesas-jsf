@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: lancamento-db
+      MYSQL_USER: despesas
+      MYSQL_PASSWORD: despesas
+    ports:
+      - 3306:3306
+      
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    links:
+      - "db:database"
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+    restart: on-failure
+    entrypoint: ./wait-for-it.sh database:3306 -t 1000 -- java -jar -Djava.net.preferIPv4Stack=true despesas-jsf-thorntail.jar
+
+networks:
+  despesas:
+    driver: custom-driver-1

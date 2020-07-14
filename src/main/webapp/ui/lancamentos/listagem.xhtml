@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+<ui:composition template="/ui/layout/layout.xhtml">
+
+	<ui:define name="content">
+	
+		<div class="secao-menu">
+			<h:form id="formMenu" prependId="false">
+				<p:menubar>
+					<p:menuitem value="#{resources['button.novo']}" action="cadastro?faces-redirect=true" />
+				</p:menubar>
+			</h:form>
+		</div>
+
+		<section id="pesquisa" class="secao-comum">
+			<h:form id="formPesquisa" prependId="false">
+
+				<p:fieldset class="fieldset-pesquisa"
+					legend="#{resources['fieldset.pesquisa.legend']}">
+					<div class="ui-fluid p-formgrid p-grid">
+						<div class="p-field p-col-3">
+							<p:outputLabel for="periodoInicioCalendar"
+								value="#{resources['label.pesquisa.dataInicio']}" />
+							<p:calendar id="periodoInicioCalendar" pattern="dd/MM/yyyy"
+								value="#{listagemLancamentoController.filtro.periodo.inicioPeriodo}"
+								mask="true" showOn="button" />
+						</div>
+						<div class="p-field p-col-3">
+							<p:outputLabel for="periodoFimCalendar"
+								value="#{resources['label.pesquisa.dataFim']}" />
+							<p:calendar id="periodoFimCalendar" pattern="dd/MM/yyyy"
+								value="#{listagemLancamentoController.filtro.periodo.fimPeriodo}"
+								mask="true" showOn="button" />
+						</div>
+					</div>
+					<div class="ui-fluid p-formgrid p-grid">
+						<div class="p-field p-col-6">
+							<p:outputLabel for="descricaoText"
+								value="#{resources['label.pesquisa.descricao']}" />
+							<p:inputText id="descricaoText"
+								value="#{listagemLancamentoController.filtro.descricao}" />
+						</div>
+					</div>
+					<div class="ui-fluid p-formgrid p-grid">
+						<div class="p-field p-col-6">
+							<p:outputLabel for="tipoSelect"
+								value="#{resources['label.pesquisa.tipo']}" />
+							<p:selectOneMenu id="tipoSelect"
+								value="#{listagemLancamentoController.filtro.tipo}">
+								<f:selectItem itemValue="#{null}" itemLabel="" />
+								<f:selectItems value="#{listagemLancamentoController.tipos}"
+									var="tipo" itemLabel="#{tipo.descricao}" itemValue="#{tipo}" />
+							</p:selectOneMenu>
+						</div>
+					</div>
+				</p:fieldset>
+				<p:toolbar>
+					<f:facet name="left">
+						<p:commandButton action="#{listagemLancamentoController.pesquisa}"
+							ajax="true" update="tblLancamentos" process="formPesquisa"
+							value="#{resources['button.pesquisar']}" />
+						<p:commandButton action="#{listagemLancamentoController.limpa}"
+							ajax="true" process="@this" update="formPesquisa"
+							value="#{resources['button.limpar']}" />
+					</f:facet>
+				</p:toolbar>
+			</h:form>
+		</section>
+
+		<section id="lista" class="secao-listagem">
+			<h:form id="formListagem" prependId="false">
+				<p:growl globalOnly="false" id="messages" />
+				<p:dataTable id="tblLancamentos" var="lancamento"
+					value="#{listagemLancamentoController.lancamentos}"
+					paginator="true" rows="20" paginatorAlwaysVisible="false"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{resources['table.header.descricao']}" />
+						</f:facet>
+						<h:outputText value="#{lancamento.descricao}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{resources['table.header.data']}" />
+						</f:facet>
+						<h:outputText value="#{lancamento.data}">
+							<f:converter converterId="localDateConverter" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{resources['table.header.tipo']}" />
+						</f:facet>
+						<h:outputText value="#{lancamento.tipo.descricao}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{resources['table.header.valor']}" />
+						</f:facet>
+						<h:outputText value="#{lancamento.valor}">
+							<f:convertNumber maxIntegerDigits="15" maxFractionDigits="2"
+								minFractionDigits="2" />
+						</h:outputText>
+					</p:column>
+					<p:column style="width: 32px; text-align: center;">
+						<p:commandButton icon="pi pi-pencil"
+							action="#{listagemLancamentoController.edita(lancamento)}"
+							ajax="false" title="#{resources['button.editar']}" />
+					</p:column>
+					<p:column style="width: 32px; text-align: center">
+						<p:commandButton icon="pi pi-trash"
+							action="#{listagemLancamentoController.deleta(lancamento)}"
+							title="#{resources['button.deletar']}" ajax="true"
+							process="@this" update="tblLancamentos messages" />
+					</p:column>
+					<p:column style="width: 32px; text-align: center">
+						<p:commandButton icon="pi pi-search"
+							action="#{listagemLancamentoController.detalha(lancamento)}"
+							ajax="false" title="#{resources['button.detalhar']}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</section>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>
