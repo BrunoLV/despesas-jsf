@@ -1,7 +1,9 @@
 package br.com.valhala.despesas.aplicacao.interno;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,6 +19,8 @@ import br.com.valhala.despesas.model.comandos.ComandoDeletaLancamento;
 import br.com.valhala.despesas.model.comandos.ComandoEditaLancamento;
 import br.com.valhala.despesas.model.comandos.ComandoNovoLancamento;
 import br.com.valhala.despesas.model.entidades.Lancamento;
+import br.com.valhala.despesas.model.excecoes.LancamentoInexistenteException;
+import br.com.valhala.despesas.model.excecoes.ValidacaoDadosException;
 
 @Named
 @ApplicationScoped
@@ -39,15 +43,15 @@ public class LancamentoCommandService implements Serializable {
 		
 		Lancamento lancamentoBanco = repository.buscaPorId(comando.getId());
 		if (lancamentoBanco == null) {
-			throw new RuntimeException("Lançamento não encontrado.");
+			throw new LancamentoInexistenteException("Lançamento não encontrado na base de dados.");
 		}
 		
 		Lancamento lancamentoEdicao = lancamentoBanco.sobrepoe(comando.getLancamento());
 		
 		Set<ConstraintViolation<Lancamento>> erros = validator.validate(lancamentoEdicao);
-		
 		if (erros != null && !erros.isEmpty()) {
-			throw new RuntimeException("Dados inválidos");
+			List<String> mensagensErro = erros.stream().map(e -> e.getMessage()).collect(Collectors.toList());
+			throw new ValidacaoDadosException("Dados inválidos", mensagensErro);
 		}
 		
 		repository.atualiza(lancamentoEdicao);
@@ -60,11 +64,11 @@ public class LancamentoCommandService implements Serializable {
 		
 		Set<ConstraintViolation<Lancamento>> erros = validator.validate(lancamentoNovo);
 		if (erros != null && !erros.isEmpty()) {
-			throw new RuntimeException("Dados inválidos");
+			List<String> mensagensErro = erros.stream().map(e -> e.getMessage()).collect(Collectors.toList());
+			throw new ValidacaoDadosException("Dados inválidos", mensagensErro);
 		}
 		
 		repository.salva(lancamentoNovo);
-		
 	}
 
 }

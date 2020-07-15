@@ -16,6 +16,7 @@ import br.com.valhala.despesas.model.comandos.ComandoEditaLancamento;
 import br.com.valhala.despesas.model.comandos.ComandoNovoLancamento;
 import br.com.valhala.despesas.model.entidades.Lancamento;
 import br.com.valhala.despesas.model.enumerados.TipoLancamento;
+import br.com.valhala.despesas.model.excecoes.ValidacaoDadosException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,43 +25,43 @@ import lombok.Setter;
 public class LancamentoController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Inject
 	private LancamentoQueryService queryService;
-	
+
 	@Inject
 	private LancamentoCommandService commandService;
-	
+
 	@Getter
 	@Setter
 	private Lancamento lancamento;
-	
+
 	@Getter
 	@Setter
 	private Long id;
-	
+
 	@Getter
 	@Setter
 	private List<Lancamento> lancamentos;
-	
+
 	@PostConstruct
 	public void inicia() {
 		lancamento = new Lancamento();
 		this.lancamentos = queryService.listaTodos();
 	}
-	
+
 	public void carregaLancamento() {
 		if (this.id != null) {
 			lancamento = queryService.buscaPorId(this.id);
-		} else {			
+		} else {
 			lancamento = new Lancamento();
 		}
 	}
-	
+
 	public TipoLancamento[] getTipos() {
 		return TipoLancamento.values();
 	}
-	
+
 	public void salva() {
 		try {
 			if (this.id != null) {
@@ -70,11 +71,17 @@ public class LancamentoController implements Serializable {
 				this.lancamento = new Lancamento();
 			}
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Operação realizada com sucesso!"));
+		} catch (ValidacaoDadosException e) {
+			e.getErros().stream().forEach(erro -> {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, erro, null));
+			});
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
 		}
 	}
-	
+
 	public void limpa() {
 		if (id != null) {
 			this.lancamento = queryService.buscaPorId(this.id);

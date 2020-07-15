@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
@@ -41,7 +40,7 @@ public class Lancamento implements Serializable {
 	@NotNull(message = "{lancamento.data.obrigatorio}")
 	private LocalDate data;
 
-	@NotBlank(message = "{lancamento.descricao.obrigatorio}")
+	@NotNull(message = "{lancamento.descricao.obrigatorio}")
 	private String descricao;
 
 	@Enumerated(EnumType.STRING)

@@ -48,3 +48,24 @@ header {
 .fieldset-cadastro {
 	margin-bottom: 10px;
 }
+
+.table-listagem {
+	vertical-align: middle;
+}
+
+.table-listagem .coluna-texto-centralizado {
+	text-align: center;
+}
+
+.table-listagem .coluna-texto-a-direita {
+	text-align: right;
+}
+
+.table-listagem .coluna-texto-a-esquerda {
+	text-align: left;
+}
+
+.table-listagem .coluna-acao {
+	width: 32px;
+	text-align: center;
+}

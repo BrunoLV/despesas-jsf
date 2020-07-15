@@ -22,7 +22,7 @@ services:
     ports:
       - 8080:8080
     restart: on-failure
-    entrypoint: ./wait-for-it.sh database:3306 -t 1000 -- java -jar -Djava.net.preferIPv4Stack=true despesas-jsf-thorntail.jar
+    entrypoint: ./wait-for-it.sh database:3306 -t 1000 -- java -jar -Djava.net.preferIPv4Stack=true despesas-jsf-thorntail.jar -Sdocker
 
 networks:
   despesas:

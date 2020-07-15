@@ -27,56 +27,61 @@
 		<section class="secao-comum">
 
 			<h:form id="formCadastro" prependId="false">
+
 				<p:growl globalOnly="false" id="messages" />
 				<h:inputHidden value="#{lancamentoController.lancamento.id}" />
 				<p:fieldset legend="#{resources['fieldset.cadastro.lengend']}"
 					class="fieldset-cadastro">
-					<div class="ui-fluid p-formgrid p-grid">
-						<div class="p-field p-col-3">
-							<p:outputLabel for="dataCalendar"
-								value="#{resources['label.cadastro.data']}" />
-							<p:calendar id="dataCalendar" pattern="dd/MM/yyyy" 
-								value="#{lancamentoController.lancamento.dataAsDate}" mask="true"
-								showOn="button" />
+
+					<f:validateBean disabled="true">
+
+						<div class="ui-fluid p-formgrid p-grid">
+							<div class="p-field p-col-3">
+								<p:outputLabel for="dataCalendar"
+									value="#{resources['label.cadastro.data']}" />
+								<p:calendar id="dataCalendar" pattern="dd/MM/yyyy"
+									value="#{lancamentoController.lancamento.dataAsDate}"
+									mask="true" showOn="button" />
+							</div>
 						</div>
-					</div>
-					<div class="ui-fluid p-formgrid p-grid">
-						<div class="p-field p-col-6">
-							<p:outputLabel for="descricaoInputText"
-								value="#{resources['label.cadastro.descricao']}" />
-							<p:inputText id="descricaoInputText"
-								value="#{lancamentoController.lancamento.descricao}" />
+						<div class="ui-fluid p-formgrid p-grid">
+							<div class="p-field p-col-6">
+								<p:outputLabel for="descricaoInputText"
+									value="#{resources['label.cadastro.descricao']}" />
+								<p:inputText id="descricaoInputText"
+									value="#{lancamentoController.lancamento.descricao}" />
+							</div>
 						</div>
-					</div>
-					<div class="ui-fluid p-formgrid p-grid">
-						<div class="p-field p-col-3">
-							<p:outputLabel for="tipoSelect"
-								value="#{resources['label.cadastro.tipo']}" />
-							<p:selectOneMenu id="tipoSelect"
-								value="#{lancamentoController.lancamento.tipo}">
-								<f:selectItem itemLabel="" itemValue="#{null}" />
-								<f:selectItems value="#{lancamentoController.tipos}" var="tipo"
-									itemLabel="#{tipo.descricao}" itemValue="#{tipo}" />
-							</p:selectOneMenu>
+						<div class="ui-fluid p-formgrid p-grid">
+							<div class="p-field p-col-3">
+								<p:outputLabel for="tipoSelect"
+									value="#{resources['label.cadastro.tipo']}" />
+								<p:selectOneMenu id="tipoSelect"
+									value="#{lancamentoController.lancamento.tipo}">
+									<f:selectItem itemLabel="" itemValue="#{null}" />
+									<f:selectItems value="#{lancamentoController.tipos}" var="tipo"
+										itemLabel="#{tipo.descricao}" itemValue="#{tipo}" />
+								</p:selectOneMenu>
+							</div>
 						</div>
-					</div>
-					<div class="ui-fluid p-formgrid p-grid">
-						<div class="p-field p-col-3">
-							<p:outputLabel for="valorInputText"
-								value="#{resources['label.detalhe.valor']}" />
-							<p:inputNumber id="valorInputText"
-								value="#{lancamentoController.lancamento.valor}"
-								decimalPlaces="2" />
+						<div class="ui-fluid p-formgrid p-grid">
+							<div class="p-field p-col-3">
+								<p:outputLabel for="valorInputText"
+									value="#{resources['label.detalhe.valor']}" />
+								<p:inputNumber id="valorInputText"
+									value="#{lancamentoController.lancamento.valor}"
+									decimalPlaces="2" />
+							</div>
 						</div>
-					</div>
-					<div class="ui-fluid p-formgrid p-grid">
-						<div class="p-field p-col-6">
-							<p:outputLabel for="observacoesTextArea"
-								value="#{resources['label.cadastro.observacoes']}" />
-							<p:inputTextarea id="observacoesTextArea"
-								value="#{lancamentoController.lancamento.observacao}" />
+						<div class="ui-fluid p-formgrid p-grid">
+							<div class="p-field p-col-6">
+								<p:outputLabel for="observacoesTextArea"
+									value="#{resources['label.cadastro.observacoes']}" />
+								<p:inputTextarea id="observacoesTextArea"
+									value="#{lancamentoController.lancamento.observacao}" />
+							</div>
 						</div>
-					</div>
+					</f:validateBean>
 				</p:fieldset>
 				<p:toolbar>
 					<f:facet name="left">

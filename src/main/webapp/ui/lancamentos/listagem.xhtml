@@ -77,17 +77,17 @@
 		<section id="lista" class="secao-listagem">
 			<h:form id="formListagem" prependId="false">
 				<p:growl globalOnly="false" id="messages" />
-				<p:dataTable id="tblLancamentos" var="lancamento"
+				<p:dataTable id="tblLancamentos" var="lancamento" styleClass="table-listagem"
 					value="#{listagemLancamentoController.lancamentos}"
 					paginator="true" rows="20" paginatorAlwaysVisible="false"
 					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
-					<p:column>
+					<p:column styleClass="coluna-texto-a-esquerda">
 						<f:facet name="header">
 							<h:outputText value="#{resources['table.header.descricao']}" />
 						</f:facet>
 						<h:outputText value="#{lancamento.descricao}" />
 					</p:column>
-					<p:column>
+					<p:column styleClass="coluna-texto-centralizado">
 						<f:facet name="header">
 							<h:outputText value="#{resources['table.header.data']}" />
 						</f:facet>
@@ -95,13 +95,13 @@
 							<f:converter converterId="localDateConverter" />
 						</h:outputText>
 					</p:column>
-					<p:column>
+					<p:column styleClass="coluna-texto-a-esquerda">
 						<f:facet name="header">
 							<h:outputText value="#{resources['table.header.tipo']}" />
 						</f:facet>
 						<h:outputText value="#{lancamento.tipo.descricao}" />
 					</p:column>
-					<p:column>
+					<p:column styleClass="coluna-texto-a-direita">
 						<f:facet name="header">
 							<h:outputText value="#{resources['table.header.valor']}" />
 						</f:facet>
